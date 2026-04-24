@@ -20,7 +20,9 @@ builder.Services.AddDbContext<ElectroDbContext>(options =>
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<OrderService>();
-
+builder.Services.AddScoped<CartService>();
+builder.Services.AddScoped<PaymentService>(); 
+builder.Services.AddScoped<ShipmentService>();
 // =====================
 // 3. JWT AUTHENTICATION
 // =====================

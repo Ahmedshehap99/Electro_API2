@@ -14,46 +14,82 @@ public class OrderService
         _context = context;
     }
 
-    // GET ALL ORDERS - للأدمن
+    // GET ALL ORDERS
     public async Task<List<OrderResponseDto>> GetAllAsync()
     {
         return await _context.Orders
-            .Include(o => o.Customer)
-            .Include(o => o.OrderItems)
-                .ThenInclude(oi => oi.Product)
-            .Select(o => MapToDto(o))
-            .ToListAsync();
+            .Select(o => new OrderResponseDto
+            {
+                OrderId = o.OrderId,
+                Status = o.Status ?? "Pending",
+                TotalAmount = o.TotalAmount ?? 0,
+                OrderDate = o.OrderDate ?? DateTime.UtcNow,
+                CustomerId = o.CustomerId ?? 0,
+                CustomerName = o.Customer != null ? o.Customer.FullName : "",
+                Items = o.OrderItems.Select(oi => new OrderItemResponseDto
+                {
+                    ProductId = oi.ProductId ?? 0,
+                    ProductName = oi.Product != null ? oi.Product.Name : "",
+                    Quantity = oi.Quantity ?? 0,
+                    UnitPrice = oi.UnitPrice ?? 0,
+                    Subtotal = (oi.UnitPrice ?? 0) * (oi.Quantity ?? 0)
+                }).ToList()
+            }).ToListAsync();
     }
 
-    // GET ORDERS BY CUSTOMER - للكاستومر يشوف أوردراته بس
+    // GET ORDERS BY CUSTOMER
     public async Task<List<OrderResponseDto>> GetByCustomerAsync(int customerId)
     {
         return await _context.Orders
-            .Include(o => o.Customer)
-            .Include(o => o.OrderItems)
-                .ThenInclude(oi => oi.Product)
             .Where(o => o.CustomerId == customerId)
-            .Select(o => MapToDto(o))
-            .ToListAsync();
+            .Select(o => new OrderResponseDto
+            {
+                OrderId = o.OrderId,
+                Status = o.Status ?? "Pending",
+                TotalAmount = o.TotalAmount ?? 0,
+                OrderDate = o.OrderDate ?? DateTime.UtcNow,
+                CustomerId = o.CustomerId ?? 0,
+                CustomerName = o.Customer != null ? o.Customer.FullName : "",
+                Items = o.OrderItems.Select(oi => new OrderItemResponseDto
+                {
+                    ProductId = oi.ProductId ?? 0,
+                    ProductName = oi.Product != null ? oi.Product.Name : "",
+                    Quantity = oi.Quantity ?? 0,
+                    UnitPrice = oi.UnitPrice ?? 0,
+                    Subtotal = (oi.UnitPrice ?? 0) * (oi.Quantity ?? 0)
+                }).ToList()
+            }).ToListAsync();
     }
 
     // GET BY ID
     public async Task<OrderResponseDto?> GetByIdAsync(int orderId, int customerId)
     {
-        var order = await _context.Orders
-            .Include(o => o.Customer)
-            .Include(o => o.OrderItems)
-                .ThenInclude(oi => oi.Product)
-            .FirstOrDefaultAsync(o => o.OrderId == orderId && o.CustomerId == customerId);
-
-        return order == null ? null : MapToDto(order);
+        return await _context.Orders
+            .Where(o => o.OrderId == orderId && o.CustomerId == customerId)
+            .Select(o => new OrderResponseDto
+            {
+                OrderId = o.OrderId,
+                Status = o.Status ?? "Pending",
+                TotalAmount = o.TotalAmount ?? 0,
+                OrderDate = o.OrderDate ?? DateTime.UtcNow,
+                CustomerId = o.CustomerId ?? 0,
+                CustomerName = o.Customer != null ? o.Customer.FullName : "",
+                Items = o.OrderItems.Select(oi => new OrderItemResponseDto
+                {
+                    ProductId = oi.ProductId ?? 0,
+                    ProductName = oi.Product != null ? oi.Product.Name : "",
+                    Quantity = oi.Quantity ?? 0,
+                    UnitPrice = oi.UnitPrice ?? 0,
+                    Subtotal = (oi.UnitPrice ?? 0) * (oi.Quantity ?? 0)
+                }).ToList()
+            })
+            .FirstOrDefaultAsync();
     }
 
     // CREATE ORDER
     public async Task<(OrderResponseDto? order, string? error)> CreateAsync(
         int customerId, OrderCreateDto dto)
     {
-        // تحقق من وجود المنتجات والـ Stock
         foreach (var item in dto.Items)
         {
             var product = await _context.Products.FindAsync(item.ProductId);
@@ -62,10 +98,9 @@ public class OrderService
                 return (null, $"Product {item.ProductId} not found.");
 
             if (product.StockQuantity < item.Quantity)
-                return (null, $"Not enough stock for product: {product.Name}. Available: {product.StockQuantity}");
+                return (null, $"Not enough stock for: {product.Name}. Available: {product.StockQuantity}");
         }
 
-        // إنشاء الأوردر
         int nextOrderId = await _context.Orders.AnyAsync()
             ? await _context.Orders.MaxAsync(o => o.OrderId) + 1
             : 1;
@@ -82,7 +117,6 @@ public class OrderService
         _context.Orders.Add(order);
         await _context.SaveChangesAsync();
 
-        // إضافة الـ OrderItems وحساب الـ Total
         decimal total = 0;
         int nextItemId = await _context.OrderItems.AnyAsync()
             ? await _context.OrderItems.MaxAsync(i => i.OrderItemId) + 1
@@ -103,19 +137,14 @@ public class OrderService
             };
 
             _context.OrderItems.Add(orderItem);
-
-            // تقليل الـ Stock
             product.StockQuantity -= itemDto.Quantity;
-
             total += price * itemDto.Quantity;
         }
 
-        // تحديث الـ Total
         order.TotalAmount = total;
         await _context.SaveChangesAsync();
 
-        var result = await GetByIdAsync(order.OrderId, customerId);
-        return (result, null);
+        return (await GetByIdAsync(order.OrderId, customerId), null);
     }
 
     // UPDATE STATUS
@@ -128,18 +157,17 @@ public class OrderService
         if (!validStatuses.Contains(dto.Status))
             return null;
 
-        // لو الأوردر اتكنسل رجّع الـ Stock
         if (dto.Status == "Cancelled" && order.Status != "Cancelled")
         {
             var items = await _context.OrderItems
-                .Include(i => i.Product)
                 .Where(i => i.OrderId == orderId)
                 .ToListAsync();
 
             foreach (var item in items)
             {
-                if (item.Product != null)
-                    item.Product.StockQuantity += item.Quantity;
+                var product = await _context.Products.FindAsync(item.ProductId);
+                if (product != null)
+                    product.StockQuantity += item.Quantity;
             }
         }
 
@@ -149,7 +177,7 @@ public class OrderService
         return await GetByIdAsync(orderId, order.CustomerId ?? 0);
     }
 
-    // CANCEL ORDER - للكاستومر
+    // CANCEL ORDER
     public async Task<(bool success, string? error)> CancelAsync(int orderId, int customerId)
     {
         var order = await _context.Orders.FindAsync(orderId);
@@ -166,23 +194,4 @@ public class OrderService
         await UpdateStatusAsync(orderId, new OrderStatusUpdateDto { Status = "Cancelled" });
         return (true, null);
     }
-
-    // HELPER - Map to DTO
-    private static OrderResponseDto MapToDto(Order o) => new()
-    {
-        OrderId = o.OrderId,
-        Status = o.Status ?? "Pending",
-        TotalAmount = o.TotalAmount ?? 0,
-        OrderDate = o.OrderDate ?? DateTime.UtcNow,
-        CustomerId = o.CustomerId ?? 0,
-        CustomerName = o.Customer?.FullName ?? "",
-        Items = o.OrderItems.Select(oi => new OrderItemResponseDto
-        {
-            ProductId = oi.ProductId ?? 0,
-            ProductName = oi.Product?.Name ?? "",
-            Quantity = oi.Quantity ?? 0,
-            UnitPrice = oi.UnitPrice ?? 0,
-            Subtotal = (oi.UnitPrice ?? 0) * (oi.Quantity ?? 0)
-        }).ToList()
-    };
 }

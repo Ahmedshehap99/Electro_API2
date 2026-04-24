@@ -14,13 +14,11 @@ public class ProductService
         _context = context;
     }
 
-    // GET ALL - مع فلترة وبحث
+    // GET ALL - with search and filters
     public async Task<List<ProductResponseDto>> GetAllAsync(
         string? search, int? categoryId, decimal? minPrice, decimal? maxPrice)
     {
-        var query = _context.Products
-            .Include(p => p.Category)
-            .AsQueryable();
+        var query = _context.Products.AsQueryable();
 
         if (!string.IsNullOrEmpty(search))
             query = query.Where(p => p.Name.Contains(search));
@@ -41,7 +39,9 @@ public class ProductService
             Description = p.Description,
             StockQuantity = p.StockQuantity ?? 0,
             UnitPrice = p.UnitPrice ?? 0,
-            AddedDate = p.AddedDate.HasValue ? p.AddedDate.Value.ToDateTime(TimeOnly.MinValue) : null,
+            AddedDate = p.AddedDate.HasValue
+                ? p.AddedDate.Value.ToDateTime(TimeOnly.MinValue)
+                : null,
             CategoryName = p.Category != null ? p.Category.Name : null
         }).ToListAsync();
     }
@@ -50,21 +50,22 @@ public class ProductService
     public async Task<ProductResponseDto?> GetByIdAsync(int id)
     {
         var p = await _context.Products
-            .Include(p => p.Category)
-            .FirstOrDefaultAsync(p => p.ProductId == id);
+            .Where(p => p.ProductId == id)
+            .Select(p => new ProductResponseDto
+            {
+                ProductId = p.ProductId,
+                Name = p.Name,
+                Description = p.Description,
+                StockQuantity = p.StockQuantity ?? 0,
+                UnitPrice = p.UnitPrice ?? 0,
+                AddedDate = p.AddedDate.HasValue
+                    ? p.AddedDate.Value.ToDateTime(TimeOnly.MinValue)
+                    : null,
+                CategoryName = p.Category != null ? p.Category.Name : null
+            })
+            .FirstOrDefaultAsync();
 
-        if (p == null) return null;
-
-        return new ProductResponseDto
-        {
-            ProductId = p.ProductId,
-            Name = p.Name,
-            Description = p.Description,
-            StockQuantity = p.StockQuantity ?? 0,
-            UnitPrice = p.UnitPrice ?? 0,
-            AddedDate = p.AddedDate.HasValue ? p.AddedDate.Value.ToDateTime(TimeOnly.MinValue) : null,
-            CategoryName = p.Category?.Name
-        };
+        return p;
     }
 
     // CREATE

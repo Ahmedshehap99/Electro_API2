@@ -146,5 +146,5 @@ C:\Users\acer\Documents\ELECTRO\ElectroAPI\ElectroAPI\obj\Debug\net8.0\ElectroAP
 C:\Users\acer\Documents\ELECTRO\ElectroAPI\ElectroAPI\obj\Debug\net8.0\ref\ElectroAPI.dll
 C:\Users\acer\Documents\ELECTRO\ElectroAPI\ElectroAPI\bin\Debug\net8.0\BCrypt.Net-Next.dll
 C:\Users\acer\Documents\ELECTRO\ElectroAPI\ElectroAPI\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-C:\Users\acer\Documents\ELECTRO\ElectroAPI\ElectroAPI\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\acer\Documents\ELECTRO\ElectroAPI\ElectroAPI\obj\Debug\net8.0\ElectroAPI.sourcelink.json
+C:\Users\acer\Documents\ELECTRO\ElectroAPI\ElectroAPI\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
