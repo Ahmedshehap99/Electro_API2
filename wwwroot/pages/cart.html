@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electro Store — Cart</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/cart.css">
+</head>
+<body>
+
+    <!-- BG EFFECTS (same as dashboard) -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+
+    <!-- THEME TOGGLE -->
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme">
+        <span id="theme-icon">☀️</span>
+    </button>
+
+    <div class="page-wrapper">
+
+        <!-- ═════════ NAVBAR ═════════ -->
+        <nav class="navbar">
+            <a href="dashboard.html" class="navbar-logo">ElectroStore</a>
+            <div class="nav-links">
+                <a href="dashboard.html">Home</a>
+                <a href="dashboard.html">Shop</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="nav-right">
+                <button class="cart-btn" title="Cart">
+                    🛒 <span class="cart-count" id="cartCount">0</span>
+                </button>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </nav>
+
+        <!-- ═════════ HEADER ═════════ -->
+        <section class="header">
+            <p class="header-eyebrow">Your Selection</p>
+            <h1>CA<span>R</span>T</h1>
+            <p class="breadcrumb">
+                <a href="#">Home</a>
+                <span class="sep">/</span>
+                <span class="current">Cart</span>
+            </p>
+        </section>
+
+        <!-- ═════════ CART CONTENT ═════════ -->
+        <div class="cart-wrapper">
+
+            <!-- LEFT: CART ITEMS -->
+            <div class="cart-left">
+
+                <!-- Table Header -->
+                <div class="cart-table-head">
+                    <span>Product</span>
+                    <span>Quantity</span>
+                    <span>Subtotal</span>
+                </div>
+
+                <!-- Cart Items -->
+                <div id="cartItems">
+                    <!-- rendered by JS -->
+                </div>
+
+                <!-- Empty State -->
+                <div class="cart-empty" id="cartEmpty" style="display:none">
+                    <div class="empty-icon">◈</div>
+                    <p>Your cart is empty</p>
+                    <a href="dashboard.html" class="continue-btn">Continue Shopping</a>
+                </div>
+
+                <!-- Continue Shopping -->
+                <div class="cart-actions" id="cartActions">
+                    <a href="dashboard.html" class="continue-btn">← Continue Shopping</a>
+                    <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
+                </div>
+            </div>
+
+            <!-- RIGHT: CART TOTALS -->
+            <div class="cart-right">
+                <div class="cart-totals">
+                    <h3 class="totals-title">Cart Totals</h3>
+
+                    <div class="totals-row">
+                        <span>Subtotal</span>
+                        <span id="subtotal" class="totals-value">0 EGP</span>
+                    </div>
+
+                    <div class="totals-row">
+                        <span>Shipping</span>
+                        <span class="totals-value free">Free</span>
+                    </div>
+
+                    <div class="totals-divider"></div>
+
+                    <div class="totals-row total-row">
+                        <span>Total</span>
+                        <span id="total" class="totals-value total-value">0 EGP</span>
+                    </div>
+
+                    <button class="checkout-btn" onclick="checkout()">
+                        Check Out
+                    </button>
+
+                    <div class="secure-note">
+                        🔒 Secure checkout powered by ElectroStore
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═════════ INSTA SECTION ═════════ -->
+        <section class="insta-section">
+            <p class="section-subtitle">Follow Us</p>
+            <h2 class="section-title">@ElectroStore</h2>
+            <a href="about.html" class="insta-link">Visit our About page →</a>
+            <div class="insta-grid">
+                <div class="insta-item"><img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&q=80" alt="insta" /></div>
+                <div class="insta-item"><img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&q=80" alt="insta" /></div>
+                <div class="insta-item"><img src="https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=400&q=80" alt="insta" /></div>
+                <div class="insta-item"><img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&q=80" alt="insta" /></div>
+                <div class="insta-item"><img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&q=80" alt="insta" /></div>
+            </div>
+        </section>
+
+        <!-- ═════════ FOOTER ═════════ -->
+        <footer>
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <span class="footer-logo">ElectroStore</span>
+                    <p>We offer the best technical solutions and the latest electronic devices with high quality and competitive prices.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li>Home</li>
+                        <li>About</li>
+                        <li>Shop</li>
+                        <li>Blogs</li>
+                        <li>Contact</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Help & Info</h4>
+                    <ul>
+                        <li>Track Your Order</li>
+                        <li>Returns Policy</li>
+                        <li>Shipping & Delivery</li>
+                        <li>Contact Us</li>
+                        <li>FAQs</li>
+                    </ul>
+                </div>
+                <div class="footer-col footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>Do you have any queries?</p>
+                    <p><strong>yourinfo@gmail.com</strong></p>
+                    <p><strong>+55 111 222 333 44</strong></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 ElectroStore. All rights reserved.</p>
+                <span>Crafted with precision</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script src="../js/cart.js" defer></script>
+</body>
+</html>

@@ -96,13 +96,13 @@ builder.Services.AddEndpointsApiExplorer();
 // 6. BUILD THE APP
 // =====================
 var app = builder.Build();
-
+app.UseDefaultFiles();    
+app.UseStaticFiles();
 app.UseSwagger();
 app.UseSwaggerUI();
-
 app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseStaticFiles();
 app.MapControllers();
 app.Run();

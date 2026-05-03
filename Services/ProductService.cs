@@ -42,7 +42,8 @@ public class ProductService
             AddedDate = p.AddedDate.HasValue
                 ? p.AddedDate.Value.ToDateTime(TimeOnly.MinValue)
                 : null,
-            CategoryName = p.Category != null ? p.Category.Name : null
+            CategoryName = p.Category != null ? p.Category.Name : null,
+            ImageUrl = p.ImageUrl  // ✅ ADD THIS
         }).ToListAsync();
     }
 
@@ -59,9 +60,10 @@ public class ProductService
                 StockQuantity = p.StockQuantity ?? 0,
                 UnitPrice = p.UnitPrice ?? 0,
                 AddedDate = p.AddedDate.HasValue
-                    ? p.AddedDate.Value.ToDateTime(TimeOnly.MinValue)
-                    : null,
-                CategoryName = p.Category != null ? p.Category.Name : null
+        ? p.AddedDate.Value.ToDateTime(TimeOnly.MinValue)
+        : null,
+                CategoryName = p.Category != null ? p.Category.Name : null,
+                ImageUrl = p.ImageUrl  // ✅ ADD THIS
             })
             .FirstOrDefaultAsync();
 
@@ -83,7 +85,10 @@ public class ProductService
             StockQuantity = dto.StockQuantity,
             UnitPrice = dto.UnitPrice,
             CategoryId = dto.CategoryId,
-            AddedDate = DateOnly.FromDateTime(DateTime.UtcNow)
+            AddedDate = DateOnly.FromDateTime(DateTime.UtcNow),
+            ImageUrl = dto.ImageUrl 
+
+
         };
 
         _context.Products.Add(product);
@@ -93,18 +98,32 @@ public class ProductService
     }
 
     // UPDATE
+    // UPDATE
     public async Task<ProductResponseDto?> UpdateAsync(int id, ProductUpdateDto dto)
     {
         var product = await _context.Products.FindAsync(id);
         if (product == null) return null;
 
-        if (dto.Name != null) product.Name = dto.Name;
-        if (dto.Description != null) product.Description = dto.Description;
-        if (dto.StockQuantity.HasValue) product.StockQuantity = dto.StockQuantity;
-        if (dto.UnitPrice.HasValue) product.UnitPrice = dto.UnitPrice;
-        if (dto.CategoryId.HasValue) product.CategoryId = dto.CategoryId;
+        if (dto.Name != null)
+            product.Name = dto.Name;
+
+        if (dto.Description != null)
+            product.Description = dto.Description;
+
+        if (dto.StockQuantity.HasValue)
+            product.StockQuantity = dto.StockQuantity.Value;
+
+        if (dto.UnitPrice.HasValue)
+            product.UnitPrice = dto.UnitPrice.Value;
+
+        if (dto.CategoryId.HasValue)
+            product.CategoryId = dto.CategoryId.Value;
+
+        if (dto.ImageUrl != null)
+            product.ImageUrl = dto.ImageUrl;
 
         await _context.SaveChangesAsync();
+
         return await GetByIdAsync(id);
     }
 

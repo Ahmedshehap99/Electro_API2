@@ -7,6 +7,7 @@ public class ProductCreateDto
     public int StockQuantity { get; set; }
     public decimal UnitPrice { get; set; }
     public int CategoryId { get; set; }
+    public string? ImageUrl { get; set; }
 }
 
 public class ProductUpdateDto
@@ -16,6 +17,9 @@ public class ProductUpdateDto
     public int? StockQuantity { get; set; }
     public decimal? UnitPrice { get; set; }
     public int? CategoryId { get; set; }
+
+    // 👇 أضف هذا
+    public string? ImageUrl { get; set; }
 }
 
 public class ProductResponseDto
@@ -27,5 +31,7 @@ public class ProductResponseDto
     public decimal UnitPrice { get; set; }
     public DateTime? AddedDate { get; set; }
     public string? CategoryName { get; set; }
+    public string? ImageUrl { get; set; }
+
 }
 

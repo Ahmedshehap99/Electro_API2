@@ -13,6 +13,7 @@
           "Microsoft.EntityFrameworkCore": "8.0.26",
           "Microsoft.EntityFrameworkCore.Design": "8.0.26",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.26",
+          "Microsoft.EntityFrameworkCore.Tools": "10.0.7",
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.22.1",
           "Swashbuckle.AspNetCore": "6.6.2",
           "System.IdentityModel.Tokens.Jwt": "8.17.0"
@@ -434,6 +435,11 @@
             "assemblyVersion": "8.0.26.0",
             "fileVersion": "8.0.2626.16905"
           }
+        }
+      },
+      "Microsoft.EntityFrameworkCore.Tools/10.0.7": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Design": "8.0.26"
         }
       },
       "Microsoft.Extensions.ApiDescription.Server/6.0.5": {},
@@ -1081,6 +1087,13 @@
       "sha512": "sha512-OdAlRZd5yAZvLaNJ4N9CkRghtiE9K5g+o4ttUqhAS2MmwMmPSqwiEslCLQd9kNo4+ipcdXL4yqGJ6BTVjXpF4Q==",
       "path": "microsoft.entityframeworkcore.sqlserver/8.0.26",
       "hashPath": "microsoft.entityframeworkcore.sqlserver.8.0.26.nupkg.sha512"
+    },
+    "Microsoft.EntityFrameworkCore.Tools/10.0.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Ui7+Y+E2KwwQvRlbOclMP8HAGXrQFQcOu3NLpKlYdmd5pbhlueyLhnW3SBv1WuXALKESGHR3lMqeANNnl/02Bw==",
+      "path": "microsoft.entityframeworkcore.tools/10.0.7",
+      "hashPath": "microsoft.entityframeworkcore.tools.10.0.7.nupkg.sha512"
     },
     "Microsoft.Extensions.ApiDescription.Server/6.0.5": {
       "type": "package",

@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electro Store — Shop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+
+<body>
+
+    <!-- ═════════ NAVBAR ═════════ -->
+    <nav class="navbar">
+        <a href="#" class="navbar-logo">ElectroStore</a>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#" class="active">Shop</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+            <a href="cart.html">Cart</a>
+        
+        </div>
+       
+        <div class="nav-right">
+            <button class="cart-btn" onclick="openCart()" title="View Cart">
+                🛒 <span class="cart-count" id="cartCount">0</span>
+            </button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+         <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
+    🌙
+ </button>
+    </nav>
+
+    <!-- ═════════ HEADER ═════════ -->
+    <section class="header">
+        <p class="header-eyebrow">Premium Electronics</p>
+        <h1>SH<span>O</span>P</h1>
+        <p class="breadcrumb">
+            <a href="#">Home</a>
+            <span class="sep">/</span>
+            <span class="current">Shop</span>
+        </p>
+    </section>
+
+    <!-- ═════════ MAIN CONTENT ═════════ -->
+    <div class="main">
+
+        <!-- PRODUCTS SECTION -->
+        <div class="products-section">
+            <div class="products-header">
+                <p class="products-count" id="productsCount">Loading products...</p>
+                <select class="sort-select" onchange="sortProducts(this.value)">
+                    <option value="default">Default Sorting</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="name">Name A–Z</option>
+                </select>
+            </div>
+            <div class="products" id="products"></div>
+            <div class="pagination" id="pagination"></div>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+
+            <!-- SEARCH -->
+            <div class="search-wrap">
+                <input type="text" id="searchInput" placeholder="Search products..." oninput="filterProducts()" />
+                <button onclick="filterProducts()">⊙</button>
+            </div>
+
+            <!-- CATEGORIES — built dynamically from API -->
+            <div class="sidebar-section">
+                <p class="sidebar-title">Categories</p>
+                <ul id="categoryList"></ul>
+            </div>
+
+            <!-- BRANDS — built dynamically from API -->
+            <div class="sidebar-section">
+                <p class="sidebar-title">Brands</p>
+                <ul id="brandList"></ul>
+            </div>
+
+            <!-- PRICE FILTER -->
+            <!-- RESET -->
+            <button onclick="resetFilters()" class="reset-btn">✕ Reset All Filters</button>
+
+        </div>
+    </div>
+
+    <!-- ═════════ INSTA SECTION ═════════ -->
+    <section class="insta-section">
+        <p class="section-subtitle">Follow Us</p>
+        <h2 class="section-title">@ElectroStore</h2>
+        <a href="../pages/about.html" class="insta-link">Visit our About page →</a>
+        <div class="insta-grid">
+            <div class="insta-item"><img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&q=80" alt="insta" /></div>
+            <div class="insta-item"><img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&q=80" alt="insta" /></div>
+            <div class="insta-item"><img src="https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=400&q=80" alt="insta" /></div>
+            <div class="insta-item"><img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-13-pro-blue-select?wid=470&hei=556&fmt=jpeg&qlt=95&.v=1645552346275" alt="insta" /></div>
+            <div class="insta-item"><img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&q=80" alt="insta" /></div>
+        </div>
+    </section>
+    <!-- ═════════ NEWSLETTER ═════════ -->
+    <section class="newsletter">
+        <div class="newsletter-content">
+            <h2>Stay in the Loop</h2>
+            <p>Get latest deals and updates</p>
+
+            <div class="newsletter-form">
+                <input type="email" placeholder="Your email..." />
+                <button>Subscribe</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═════════ FOOTER ═════════ -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <span class="footer-logo">ElectroStore</span>
+                <p>We offer the best technical solutions and the latest electronic devices with high quality and competitive prices.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li>Home</li>
+                    <li>About</li>
+                    <li>Shop</li>
+                    <li>Blogs</li>
+                    <li>Contact</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Help & Info</h4>
+                <ul>
+                    <li>Track Your Order</li>
+                    <li>Returns Policy</li>
+                    <li>Shipping & Delivery</li>
+                    <li>Contact Us</li>
+                    <li>FAQs</li>
+                </ul>
+            </div>
+            <div class="footer-col footer-contact">
+                <h4>Contact Us</h4>
+                <p>Do you have any queries?</p>
+                <p><strong>yourinfo@gmail.com</strong></p>
+                <p><strong>+55 111 222 333 44</strong></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 ElectroStore. All rights reserved.</p>
+            <span>Crafted with precision</span>
+        </div>
+    </footer>
+
+
+    <div class="toast" id="toast"></div>
+
+    <script src="../js/dashboard.js" defer></script>
+</body>
+</html>

@@ -600,6 +600,38 @@
         }
       }
     },
+    "/api/Products/upload": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "file": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Shipments": {
       "get": {
         "tags": [
@@ -836,6 +868,10 @@
           "categoryId": {
             "type": "integer",
             "format": "int32"
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -864,6 +900,10 @@
           "categoryId": {
             "type": "integer",
             "format": "int32",
+            "nullable": true
+          },
+          "imageUrl": {
+            "type": "string",
             "nullable": true
           }
         },

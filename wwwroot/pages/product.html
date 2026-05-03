@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Electro — Product Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/product.css" />
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="#" class="navbar-logo">ElectroStore</a>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="shop.html" class="active">Shop</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
+        <div class="nav-right">
+            <button class="cart-btn" title="View Cart">
+                🛒 <span class="cart-count" id="cartCount">0</span>
+            </button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
+    </nav>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb-bar">
+        <a href="#">Home</a>
+        <span class="sep">/</span>
+        <a href="shop.html">Shop</a>
+        <span class="sep">/</span>
+        <span class="current" id="breadcrumbName">Product</span>
+    </div>
+
+    <!-- MAIN PRODUCT SECTION -->
+    <section class="product-section">
+
+        <!-- LEFT: Images -->
+        <div class="product-images">
+            <div class="main-img-wrap">
+                <img id="mainImg" src="" alt="Product" onerror="this.src='https://placehold.co/600x600/1e1e1e/888?text=No+Image'" />
+                <span class="badge-new" id="badgeNew" style="display:none">NEW</span>
+            </div>
+            <div class="thumb-row" id="thumbRow">
+                <!-- thumbnails injected by JS -->
+            </div>
+        </div>
+
+        <!-- RIGHT: Info -->
+        <div class="product-info">
+            <p class="product-category" id="productCategory">—</p>
+            <h1 class="product-name" id="productName">Loading...</h1>
+
+            <div class="rating-row">
+                <span class="stars">★★★★☆</span>
+                <span class="rating-count">(128 reviews)</span>
+            </div>
+
+            <div class="price-wrap">
+                <span class="price-current" id="productPrice">—</span>
+                <span class="price-old" id="productOldPrice"></span>
+                <span class="badge-discount" id="badgeDiscount" style="display:none"></span>
+            </div>
+
+            <p class="product-desc" id="productDesc">—</p>
+
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <span class="meta-label">Stock</span>
+                    <span class="meta-value" id="productStock">—</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Category</span>
+                    <span class="meta-value" id="productCatMeta">—</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Added</span>
+                    <span class="meta-value" id="productDate">—</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">ID</span>
+                    <span class="meta-value" id="productId">—</span>
+                </div>
+            </div>
+
+            <!-- QUANTITY -->
+            <div class="qty-row">
+                <span class="qty-label">Quantity</span>
+                <div class="qty-control">
+                    <button onclick="changeQty(-1)">−</button>
+                    <span id="qtyVal">1</span>
+                    <button onclick="changeQty(1)">+</button>
+                </div>
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="action-row">
+                <button class="btn-cart" onclick="addToCart()">🛒 Add to Cart</button>
+                <button class="btn-wish" onclick="addToWishlist()" title="Wishlist">♡</button>
+            </div>
+
+            <!-- OFFERS -->
+            <div class="offers-box">
+                <p class="offers-title">🎁 Available Offers</p>
+                <ul class="offers-list">
+                    <li>✅ Free shipping on orders over 500 EGP</li>
+                    <li>✅ 10% off on first purchase — use code <strong>ELECTRO10</strong></li>
+                    <li>✅ 1 Year warranty included</li>
+                    <li>✅ Easy 14-day return policy</li>
+                </ul>
+            </div>
+
+            <!-- DELIVERY -->
+            <div class="delivery-row">
+                <div class="delivery-item">
+                    <span class="delivery-icon">🚚</span>
+                    <span>Fast Delivery<br /><small>2-5 business days</small></span>
+                </div>
+                <div class="delivery-item">
+                    <span class="delivery-icon">🔒</span>
+                    <span>Secure Payment<br /><small>100% protected</small></span>
+                </div>
+                <div class="delivery-item">
+                    <span class="delivery-icon">↩️</span>
+                    <span>Easy Returns<br /><small>14 days policy</small></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TABS SECTION -->
+    <section class="tabs-section">
+        <div class="tabs-header">
+            <button class="tab-btn active" onclick="showTab('description', this)">Description</button>
+            <button class="tab-btn" onclick="showTab('specs', this)">Specifications</button>
+            <button class="tab-btn" onclick="showTab('reviews', this)">Reviews</button>
+        </div>
+
+        <!-- Description Tab -->
+        <div class="tab-content active" id="tab-description">
+            <h3>About this product</h3>
+            <p id="tabDesc">Loading product description...</p>
+            <div class="features-grid">
+                <div class="feature-card">⚡ High Performance</div>
+                <div class="feature-card">🔋 Long Battery Life</div>
+                <div class="feature-card">📦 Premium Packaging</div>
+                <div class="feature-card">🌍 International Warranty</div>
+            </div>
+        </div>
+
+        <!-- Specs Tab -->
+        <div class="tab-content" id="tab-specs">
+            <h3>Technical Specifications</h3>
+            <table class="specs-table">
+                <tbody id="specsTable">
+                    <tr><td>Name</td><td id="specName">—</td></tr>
+                    <tr><td>Category</td><td id="specCategory">—</td></tr>
+                    <tr><td>Price</td><td id="specPrice">—</td></tr>
+                    <tr><td>Stock Quantity</td><td id="specStock">—</td></tr>
+                    <tr><td>Date Added</td><td id="specDate">—</td></tr>
+                    <tr><td>Product ID</td><td id="specId">—</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Reviews Tab -->
+        <div class="tab-content" id="tab-reviews">
+            <h3>Customer Reviews</h3>
+            <div class="reviews-summary">
+                <div class="big-rating">4.2</div>
+                <div class="rating-bars">
+                    <div class="bar-row"><span>5 ★</span><div class="bar"><div class="bar-fill" style="width:60%"></div></div><span>60%</span></div>
+                    <div class="bar-row"><span>4 ★</span><div class="bar"><div class="bar-fill" style="width:25%"></div></div><span>25%</span></div>
+                    <div class="bar-row"><span>3 ★</span><div class="bar"><div class="bar-fill" style="width:10%"></div></div><span>10%</span></div>
+                    <div class="bar-row"><span>2 ★</span><div class="bar"><div class="bar-fill" style="width:3%"></div></div><span>3%</span></div>
+                    <div class="bar-row"><span>1 ★</span><div class="bar"><div class="bar-fill" style="width:2%"></div></div><span>2%</span></div>
+                </div>
+            </div>
+            <div class="review-cards">
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Ahmed M.</span>
+                        <span class="review-stars">★★★★★</span>
+                    </div>
+                    <p>Excellent product! Quality is top notch and delivery was fast. Highly recommended.</p>
+                    <span class="review-date">April 2026</span>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Sara K.</span>
+                        <span class="review-stars">★★★★☆</span>
+                    </div>
+                    <p>Very good value for money. Packaging was great and the product works perfectly.</p>
+                    <span class="review-date">March 2026</span>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Omar H.</span>
+                        <span class="review-stars">★★★★★</span>
+                    </div>
+                    <p>Amazing quality! Will definitely buy again from ElectroStore.</p>
+                    <span class="review-date">March 2026</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RELATED PRODUCTS -->
+    <section class="related-section">
+        <h2 class="section-title">Related Products</h2>
+        <div class="related-grid" id="relatedGrid">
+            <!-- injected by JS -->
+        </div>
+    </section>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script src="../js/product.js"></script>
+</body>
+</html>

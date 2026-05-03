@@ -71,4 +71,28 @@ public class ProductsController : ControllerBase
 
         return Ok(new { message = "Product deleted successfully." });
     }
+
+    [HttpPost("upload")]
+    public async Task<IActionResult> UploadImage(IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+            return BadRequest("No file");
+
+        var folder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+
+        if (!Directory.Exists(folder))
+            Directory.CreateDirectory(folder);
+
+        var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+        var path = Path.Combine(folder, fileName);
+
+        using (var stream = new FileStream(path, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        var url = $"https://localhost:44351/images/{fileName}";
+
+        return Ok(new { imageUrl = url });
+    }
 }

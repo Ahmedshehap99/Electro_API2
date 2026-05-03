@@ -378,6 +378,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ElectroAPI.Controllers.ProductsController",
+    "Method": "UploadImage",
+    "RelativePath": "api/Products/upload",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ElectroAPI.Controllers.ShipmentsController",
     "Method": "GetAll",
     "RelativePath": "api/Shipments",
