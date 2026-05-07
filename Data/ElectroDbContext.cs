@@ -9,14 +9,10 @@ namespace ElectroAPI.Data;
 
 public partial class ElectroDbContext : DbContext
 {
-    public ElectroDbContext()
-    {
-    }
+    public ElectroDbContext() { }
 
     public ElectroDbContext(DbContextOptions<ElectroDbContext> options)
-        : base(options)
-    {
-    }
+        : base(options) { }
 
     public virtual DbSet<Cart> Carts { get; set; }
     public virtual DbSet<Category> Categories { get; set; }
@@ -52,29 +48,21 @@ public partial class ElectroDbContext : DbContext
         {
             entity.HasKey(e => e.CategoryId).HasName("PK__Categori__19093A0BB8F1CE42");
             entity.Property(e => e.CategoryId).ValueGeneratedNever();
-            entity.Property(e => e.Description)
-                .HasMaxLength(300)
-                .IsUnicode(false);
-            entity.Property(e => e.Name)
-                .HasMaxLength(100)
-                .IsUnicode(false);
-            // ✅ شيلنا السطر الغلط بتاع MainCategoryNavigation
+            entity.Property(e => e.Description).HasMaxLength(300).IsUnicode(false);
+            entity.Property(e => e.Name).HasMaxLength(100).IsUnicode(false);
         });
 
         modelBuilder.Entity<Customer>(entity =>
         {
             entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64D8F6C754CC");
             entity.Property(e => e.CustomerId).ValueGeneratedNever();
-            entity.Property(e => e.Email)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.Property(e => e.Email).HasMaxLength(100).IsUnicode(false);
             entity.Property(e => e.FullName).HasMaxLength(150);
             entity.Property(e => e.PasswordHash).HasMaxLength(255);
             entity.Property(e => e.PhoneNumber).HasMaxLength(20);
             entity.Property(e => e.RegistrationDate).HasColumnType("datetime");
-            entity.Property(e => e.ShippingAddress)
-                .HasMaxLength(150)
-                .IsUnicode(false);
+            entity.Property(e => e.ShippingAddress).HasMaxLength(150).IsUnicode(false);
+            entity.Property(e => e.IsAdmin).HasDefaultValue(false);
         });
 
         modelBuilder.Entity<Order>(entity =>
@@ -82,9 +70,7 @@ public partial class ElectroDbContext : DbContext
             entity.HasKey(e => e.OrderId).HasName("PK__Orders__C3905BCF1020B2F9");
             entity.Property(e => e.OrderId).ValueGeneratedNever();
             entity.Property(e => e.OrderDate).HasColumnType("datetime");
-            entity.Property(e => e.Status)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.Property(e => e.Status).HasMaxLength(100).IsUnicode(false);
             entity.Property(e => e.TotalAmount).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
@@ -129,28 +115,19 @@ public partial class ElectroDbContext : DbContext
             entity.HasKey(e => e.PaymentId).HasName("PK__Payment__9B556A3820C82027");
             entity.ToTable("Payment");
             entity.Property(e => e.PaymentId).ValueGeneratedNever();
-            entity.Property(e => e.Amount)
-                .HasMaxLength(100)
-                .IsUnicode(false);
-            entity.Property(e => e.Method)
-                .HasMaxLength(150)
-                .IsUnicode(false);
-            entity.Property(e => e.Status)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.Property(e => e.Amount).HasMaxLength(100).IsUnicode(false);
+            entity.Property(e => e.Method).HasMaxLength(150).IsUnicode(false);
+            entity.Property(e => e.Status).HasMaxLength(100).IsUnicode(false);
         });
 
         modelBuilder.Entity<Product>(entity =>
         {
             entity.HasKey(e => e.ProductId).HasName("PK__Products__B40CC6CD857CD8AC");
             entity.Property(e => e.ProductId).ValueGeneratedNever();
-            entity.Property(e => e.Description)
-                .HasMaxLength(300)
-                .IsUnicode(false);
-            entity.Property(e => e.Name)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.Property(e => e.Description).HasMaxLength(300).IsUnicode(false);
+            entity.Property(e => e.Name).HasMaxLength(100).IsUnicode(false);
             entity.Property(e => e.UnitPrice).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.ImageUrl).HasMaxLength(500);
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
@@ -178,9 +155,7 @@ public partial class ElectroDbContext : DbContext
         {
             entity.HasKey(e => e.ReviewId).HasName("PK__Reviews__74BC79CE9DB88981");
             entity.Property(e => e.ReviewId).ValueGeneratedNever();
-            entity.Property(e => e.Comment)
-                .HasMaxLength(200)
-                .IsUnicode(false);
+            entity.Property(e => e.Comment).HasMaxLength(200).IsUnicode(false);
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Reviews)
                 .HasForeignKey(d => d.CustomerId)
@@ -195,15 +170,9 @@ public partial class ElectroDbContext : DbContext
         {
             entity.HasKey(e => e.ShipmentId).HasName("PK__Shipment__5CAD37ED2ED43939");
             entity.Property(e => e.ShipmentId).ValueGeneratedNever();
-            entity.Property(e => e.Amount)
-                .HasMaxLength(100)
-                .IsUnicode(false);
-            entity.Property(e => e.CurrierName)
-                .HasMaxLength(150)
-                .IsUnicode(false);
-            entity.Property(e => e.Status)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.Property(e => e.Amount).HasMaxLength(100).IsUnicode(false);
+            entity.Property(e => e.CurrierName).HasMaxLength(150).IsUnicode(false);
+            entity.Property(e => e.Status).HasMaxLength(100).IsUnicode(false);
 
             entity.HasOne(d => d.Order).WithMany(p => p.Shipments)
                 .HasForeignKey(d => d.OrderId)
@@ -214,12 +183,8 @@ public partial class ElectroDbContext : DbContext
         {
             entity.HasKey(e => e.TranId).HasName("PK__StockTra__F70897C98146DCAA");
             entity.Property(e => e.TranId).ValueGeneratedNever();
-            entity.Property(e => e.Reference)
-                .HasMaxLength(100)
-                .IsUnicode(false);
-            entity.Property(e => e.Type)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.Reference).HasMaxLength(100).IsUnicode(false);
+            entity.Property(e => e.Type).HasMaxLength(50).IsUnicode(false);
 
             entity.HasOne(d => d.Product).WithMany(p => p.StockTransactions)
                 .HasForeignKey(d => d.ProductId)
@@ -230,16 +195,10 @@ public partial class ElectroDbContext : DbContext
         {
             entity.HasKey(e => e.SupplierId).HasName("PK__Supplier__4BE666B4C123AA4B");
             entity.Property(e => e.SupplierId).ValueGeneratedNever();
-            entity.Property(e => e.Address)
-                .HasMaxLength(150)
-                .IsUnicode(false);
+            entity.Property(e => e.Address).HasMaxLength(150).IsUnicode(false);
             entity.Property(e => e.Country).HasMaxLength(100);
-            entity.Property(e => e.Email)
-                .HasMaxLength(100)
-                .IsUnicode(false);
-            entity.Property(e => e.Name)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.Property(e => e.Email).HasMaxLength(100).IsUnicode(false);
+            entity.Property(e => e.Name).HasMaxLength(100).IsUnicode(false);
         });
 
         OnModelCreatingPartial(modelBuilder);

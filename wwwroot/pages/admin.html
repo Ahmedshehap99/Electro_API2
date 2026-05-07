@@ -1,7 +1,347 @@
-<input type="file" id="imageInput" />
-<button onclick="uploadImage()">Upload Image</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Electro — Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/admin.css" />
+</head>
+<body>
 
-<input type="text" id="name" placeholder="Product Name" />
-<input type="number" id="price" placeholder="Price" />
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <span>⚡</span>
+            <span class="logo-text">ELECTRO</span>
+        </div>
+        <p class="sidebar-label">MAIN MENU</p>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" onclick="showSection('dashboard', this)">
+                <span class="nav-icon">📊</span><span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('products', this)">
+                <span class="nav-icon">📦</span><span>Products</span>
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('orders', this)">
+                <span class="nav-icon">🛒</span><span>Orders</span>
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('customers', this)">
+                <span class="nav-icon">👥</span><span>Customers</span>
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('categories', this)">
+                <span class="nav-icon">🏷️</span><span>Categories</span>
+            </a>
+        </nav>
+        <p class="sidebar-label">ACCOUNT</p>
+        <nav class="sidebar-nav">
+            <a href="../pages/shop.html" class="nav-item">
+                <span class="nav-icon">🏪</span><span>View Store</span>
+            </a>
+            <a href="#" class="nav-item" onclick="logout()">
+                <span class="nav-icon">🚪</span><span>Logout</span>
+            </a>
+        </nav>
+    </aside>
 
-<button onclick="addProduct()">Add Product</button>
+    <!-- MAIN -->
+    <div class="main-wrap">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <h1 class="page-title" id="pageTitle">Dashboard</h1>
+            </div>
+            <div class="topbar-right">
+                <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
+                <div class="admin-badge">
+                    <span>👤</span>
+                    <span id="adminName">Admin</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ══════════ DASHBOARD SECTION ══════════ -->
+        <section class="section active" id="section-dashboard">
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Total Customers</p>
+                        <p class="stat-value" id="totalCustomers">—</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Total Products</p>
+                        <p class="stat-value" id="totalProducts">—</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🛒</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Total Orders</p>
+                        <p class="stat-value" id="totalOrders">—</p>
+                    </div>
+                </div>
+                <div class="stat-card accent">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Total Revenue</p>
+                        <p class="stat-value" id="totalRevenue">—</p>
+                    </div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-icon">⏳</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Pending Orders</p>
+                        <p class="stat-value" id="pendingOrders">—</p>
+                    </div>
+                </div>
+                <div class="stat-card danger">
+                    <div class="stat-icon">⚠️</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Low Stock</p>
+                        <p class="stat-value" id="lowStock">—</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dash-card">
+                    <h3>Recent Orders</h3>
+                    <div id="recentOrders">Loading...</div>
+                </div>
+                <div class="dash-card">
+                    <h3>Low Stock Products</h3>
+                    <div id="lowStockList">Loading...</div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ══════════ PRODUCTS SECTION ══════════ -->
+        <section class="section" id="section-products">
+
+            <div class="section-header">
+                <input class="search-input" type="text" placeholder="Search products..." oninput="filterTable('productsTable', this.value)" />
+                <button class="btn-primary" onclick="openProductModal()">+ Add Product</button>
+            </div>
+
+            <div class="table-wrap">
+                <table class="data-table" id="productsTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsBody">
+                        <tr><td colspan="7" class="loading-row">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ══════════ ORDERS SECTION ══════════ -->
+        <section class="section" id="section-orders">
+
+            <div class="section-header">
+                <input class="search-input" type="text" placeholder="Search orders..." oninput="filterTable('ordersTable', this.value)" />
+                <select class="filter-select" onchange="filterOrdersByStatus(this.value)">
+                    <option value="">All Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+            </div>
+
+            <div class="table-wrap">
+                <table class="data-table" id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersBody">
+                        <tr><td colspan="7" class="loading-row">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ══════════ CUSTOMERS SECTION ══════════ -->
+        <section class="section" id="section-customers">
+
+            <div class="section-header">
+                <input class="search-input" type="text" placeholder="Search customers..." oninput="filterTable('customersTable', this.value)" />
+            </div>
+
+            <div class="table-wrap">
+                <table class="data-table" id="customersTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Orders</th>
+                            <th>Spent</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customersBody">
+                        <tr><td colspan="8" class="loading-row">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ══════════ CATEGORIES SECTION ══════════ -->
+        <section class="section" id="section-categories">
+
+            <div class="section-header">
+                <input class="search-input" type="text" placeholder="Search categories..." oninput="filterTable('categoriesTable', this.value)" />
+                <button class="btn-primary" onclick="openCategoryModal()">+ Add Category</button>
+            </div>
+
+            <div class="table-wrap">
+                <table class="data-table" id="categoriesTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Products</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="categoriesBody">
+                        <tr><td colspan="5" class="loading-row">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div><!-- end main-wrap -->
+    <!-- ══════════ PRODUCT MODAL ══════════ -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="productModalTitle">Add Product</h2>
+                <button class="modal-close" onclick="closeModal('productModal')">✕</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editProductId" />
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Product Name *</label>
+                        <input type="text" id="pName" placeholder="e.g. iPhone 17 Pro" />
+                    </div>
+                    <div class="form-group">
+                        <label>Category ID *</label>
+                        <input type="number" id="pCategory" placeholder="e.g. 2" />
+                    </div>
+                    <div class="form-group">
+                        <label>Price (EGP) *</label>
+                        <input type="number" id="pPrice" placeholder="e.g. 75000" />
+                    </div>
+                    <div class="form-group">
+                        <label>Stock Quantity *</label>
+                        <input type="number" id="pStock" placeholder="e.g. 10" />
+                    </div>
+                    <div class="form-group full">
+                        <label>Description</label>
+                        <input type="text" id="pDesc" placeholder="Product description..." />
+                    </div>
+                    <div class="form-group full">
+                        <label>Image URL</label>
+                        <input type="text" id="pImage" placeholder="https://images.unsplash.com/..." />
+                    </div>
+                    <div class="form-group full" id="imagePreviewWrap" style="display:none">
+                        <img id="imagePreview" src="" alt="Preview" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;border:1px solid var(--border)" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('productModal')">Cancel</button>
+                <button class="btn-primary" onclick="saveProduct()">Save Product</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════ CATEGORY MODAL ══════════ -->
+    <div class="modal-overlay" id="categoryModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Add Category</h2>
+                <button class="modal-close" onclick="closeModal('categoryModal')">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-grid">
+                    <div class="form-group full">
+                        <label>Category Name *</label>
+                        <input type="text" id="cName" placeholder="e.g. Phones" />
+                    </div>
+                    <div class="form-group full">
+                        <label>Description</label>
+                        <input type="text" id="cDesc" placeholder="Category description..." />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('categoryModal')">Cancel</button>
+                <button class="btn-primary" onclick="saveCategory()">Save Category</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════ ORDER STATUS MODAL ══════════ -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal" style="max-width:400px">
+            <div class="modal-header">
+                <h2>Update Order Status</h2>
+                <button class="modal-close" onclick="closeModal('orderModal')">✕</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editOrderId" />
+                <div class="form-group full">
+                    <label>New Status</label>
+                    <select id="orderStatus" class="filter-select" style="width:100%">
+                        <option value="Pending">Pending</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('orderModal')">Cancel</button>
+                <button class="btn-primary" onclick="saveOrderStatus()">Update</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script src="../js/admin.js"></script>
+</body>
+</html>

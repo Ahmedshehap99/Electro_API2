@@ -8,7 +8,8 @@ wwwroot\js\dashboard.js
 wwwroot\js\login.js
 wwwroot\js\product.js
 wwwroot\login.html
-wwwroot\pages\admin.html
+wwwroot\css\admin.css
 wwwroot\pages\cart.html
-wwwroot\pages\product.html
 wwwroot\pages\dashboard.html
+wwwroot\pages\product.html
+wwwroot\pages\admin.html

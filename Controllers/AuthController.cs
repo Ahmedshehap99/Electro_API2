@@ -19,10 +19,8 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Register(RegisterDto dto)
     {
         var token = await _authService.RegisterAsync(dto);
-
         if (token == null)
             return BadRequest(new { message = "Email already exists." });
-
         return Ok(new { token });
     }
 
@@ -30,10 +28,8 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login(LoginDto dto)
     {
         var token = await _authService.LoginAsync(dto);
-
         if (token == null)
             return Unauthorized(new { message = "Invalid email or password." });
-
         return Ok(new { token });
     }
 }

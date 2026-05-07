@@ -20,24 +20,18 @@ public class AuthService
         _config = config;
     }
 
-    // ===========================
     // REGISTER
-    // ===========================
     public async Task<string?> RegisterAsync(RegisterDto dto)
     {
-        // 1. Check if email is already used by another customer
         bool emailExists = await _context.Customers
             .AnyAsync(c => c.Email == dto.Email);
 
-        if (emailExists)
-            return null; // Return null so the Controller sends back 400 Bad Request
+        if (emailExists) return null;
 
-        // 2. Generate next ID manually (because the DB has no IDENTITY on this column)
         int nextId = await _context.Customers.AnyAsync()
             ? await _context.Customers.MaxAsync(c => c.CustomerId) + 1
             : 1;
 
-        // 3. Create the new customer object
         var customer = new Customer
         {
             CustomerId = nextId,
@@ -45,43 +39,32 @@ public class AuthService
             Email = dto.Email,
             PhoneNumber = dto.PhoneNumber,
             ShippingAddress = dto.ShippingAddress,
-            // Never store plain text passwords — BCrypt hashes it securely
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
-            RegistrationDate = DateTime.UtcNow
+            RegistrationDate = DateTime.UtcNow,
+            IsAdmin = dto.IsAdmin   // ← جديد
         };
 
         _context.Customers.Add(customer);
         await _context.SaveChangesAsync();
 
-        // 4. Return a JWT token immediately after successful registration
         return GenerateToken(customer);
     }
 
-    // ===========================
     // LOGIN
-    // ===========================
     public async Task<string?> LoginAsync(LoginDto dto)
     {
-        // 1. Find the customer by email
         var customer = await _context.Customers
             .FirstOrDefaultAsync(c => c.Email == dto.Email);
 
-        // 2. If not found, return null
-        if (customer == null)
-            return null;
+        if (customer == null) return null;
 
-        // 3. Compare the entered password against the stored hash
-        bool isValidPassword = BCrypt.Net.BCrypt.Verify(dto.Password, customer.PasswordHash);
-        if (!isValidPassword)
-            return null;
+        bool isValid = BCrypt.Net.BCrypt.Verify(dto.Password, customer.PasswordHash);
+        if (!isValid) return null;
 
-        // 4. Return JWT token on success
         return GenerateToken(customer);
     }
 
-    // ===========================
-    // GENERATE JWT TOKEN
-    // ===========================
+    // GENERATE TOKEN
     private string GenerateToken(Customer customer)
     {
         var key = new SymmetricSecurityKey(
@@ -89,21 +72,19 @@ public class AuthService
 
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-        // Claims are pieces of data embedded inside the token
-        // We use them later in Controllers to know who is making the request
         var claims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, customer.CustomerId.ToString()),
             new Claim(ClaimTypes.Email, customer.Email),
-            new Claim(ClaimTypes.Name, customer.FullName)
+            new Claim(ClaimTypes.Name, customer.FullName),
+            new Claim("IsAdmin", customer.IsAdmin.ToString())  // ← جديد
         };
 
         var token = new JwtSecurityToken(
             issuer: _config["Jwt:Issuer"],
             audience: _config["Jwt:Audience"],
             claims: claims,
-            expires: DateTime.UtcNow.AddDays(
-                double.Parse(_config["Jwt:ExpireDays"]!)),
+            expires: DateTime.UtcNow.AddDays(double.Parse(_config["Jwt:ExpireDays"]!)),
             signingCredentials: creds
         );
 

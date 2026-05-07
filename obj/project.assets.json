@@ -4314,11 +4314,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\acer\\Documents\\ELECTRO\\ElectroAPI\\ElectroAPI\\ElectroAPI.csproj",
+      "projectUniqueName": "C:\\Users\\acer\\Documents\\ELECTRO\\github_Electro_second\\Electro_API2\\ElectroAPI.csproj",
       "projectName": "ElectroAPI",
-      "projectPath": "C:\\Users\\acer\\Documents\\ELECTRO\\ElectroAPI\\ElectroAPI\\ElectroAPI.csproj",
+      "projectPath": "C:\\Users\\acer\\Documents\\ELECTRO\\github_Electro_second\\Electro_API2\\ElectroAPI.csproj",
       "packagesPath": "C:\\Users\\acer\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\acer\\Documents\\ELECTRO\\ElectroAPI\\ElectroAPI\\obj\\",
+      "outputPath": "C:\\Users\\acer\\Documents\\ELECTRO\\github_Electro_second\\Electro_API2\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,12 +1,11 @@
-﻿namespace ElectroAPI.DTOs
-{
-    public class RegisterDto
-    {
+﻿namespace ElectroAPI.DTOs;
 
-        public string FullName { get; set; } = null!;
-        public string Email { get; set; } = null!;
-        public string Password { get; set; } = null!;
-        public string? PhoneNumber { get; set; }
-        public string? ShippingAddress { get; set; }
-    }
+public class RegisterDto
+{
+    public string FullName { get; set; } = null!;
+    public string Email { get; set; } = null!;
+    public string Password { get; set; } = null!;
+    public string? PhoneNumber { get; set; }
+    public string? ShippingAddress { get; set; }
+    public bool IsAdmin { get; set; } = false;
 }
