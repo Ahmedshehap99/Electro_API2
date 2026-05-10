@@ -1,6 +1,4 @@
-﻿namespace ElectroAPI.DTOs;
-
-public class OrderItemCreateDto
+﻿public class OrderItemCreateDto
 {
     public int ProductId { get; set; }
     public int Quantity { get; set; }
@@ -35,5 +33,4 @@ public class OrderResponseDto
 public class OrderStatusUpdateDto
 {
     public string Status { get; set; } = null!;
-    // Pending / Processing / Shipped / Delivered / Cancelled
 }

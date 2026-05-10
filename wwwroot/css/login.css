@@ -562,61 +562,7 @@ input::placeholder {
         display: flex;
     }
 
-/* Token Box */
-.token-box {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px;
-    font-size: 11px;
-    color: var(--accent);
-    word-break: break-all;
-    margin-top: 12px;
-    font-family: monospace;
-    display: none;
-    position: relative;
-}
 
-body.light .token-box {
-    background: #f8fafc;
-}
-
-.copy-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: var(--border);
-    border: none;
-    border-radius: 5px;
-    padding: 3px 8px;
-    color: var(--text);
-    font-size: 11px;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-    .copy-btn:hover {
-        background: var(--accent);
-        color: #fff;
-    }
-
-.forgot-link {
-    text-align: right;
-    margin-top: -12px;
-    margin-bottom: 16px;
-}
-
-    .forgot-link a {
-        color: var(--accent);
-        font-size: 12px;
-        text-decoration: none;
-        opacity: 0.8;
-        transition: opacity 0.2s;
-    }
-
-        .forgot-link a:hover {
-            opacity: 1;
-        }
 
 /* Register extras */
 .extra-fields {

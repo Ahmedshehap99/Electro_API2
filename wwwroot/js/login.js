@@ -140,9 +140,9 @@ async function handleSubmit(e) {
             document.getElementById('token-text').textContent = data.token;
             document.getElementById('token-box').style.display = 'block';
 
-           
-           window.location.href = '/pages/dashboard.html';
-            
+
+            window.location.href = '/pages/dashboard.html';
+
         }
 
     } catch (err) {

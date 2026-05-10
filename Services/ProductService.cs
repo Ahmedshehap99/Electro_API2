@@ -42,6 +42,7 @@ public class ProductService
             AddedDate = p.AddedDate.HasValue
                 ? p.AddedDate.Value.ToDateTime(TimeOnly.MinValue)
                 : null,
+            CategoryId = p.CategoryId,
             CategoryName = p.Category != null ? p.Category.Name : null,
             ImageUrl = p.ImageUrl  // ✅ ADD THIS
         }).ToListAsync();
@@ -62,6 +63,7 @@ public class ProductService
                 AddedDate = p.AddedDate.HasValue
         ? p.AddedDate.Value.ToDateTime(TimeOnly.MinValue)
         : null,
+                CategoryId = p.CategoryId,
                 CategoryName = p.Category != null ? p.Category.Name : null,
                 ImageUrl = p.ImageUrl  // ✅ ADD THIS
             })

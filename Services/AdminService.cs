@@ -15,18 +15,22 @@ public class AdminService
     }
 
     // ══════════════════════════
-    // DASHBOARD STATS
+    // STATS
     // ══════════════════════════
     public async Task<object> GetStatsAsync()
     {
-        var totalCustomers = await _context.Customers.CountAsync(c => c.IsAdmin != true);
+        var totalCustomers = await _context.Customers
+            .CountAsync(c => c.IsAdmin == false || c.IsAdmin == null);
+
         var totalProducts = await _context.Products.CountAsync();
         var totalOrders = await _context.Orders.CountAsync();
         var totalRevenue = await _context.Orders
             .Where(o => o.Status != "Cancelled")
             .SumAsync(o => o.TotalAmount ?? 0);
-        var pendingOrders = await _context.Orders.CountAsync(o => o.Status == "Pending");
-        var lowStockProducts = await _context.Products.CountAsync(p => p.StockQuantity <= 5);
+        var pendingOrders = await _context.Orders
+            .CountAsync(o => o.Status == "Pending");
+        var lowStockProducts = await _context.Products
+            .CountAsync(p => p.StockQuantity <= 5);
 
         return new
         {
@@ -38,7 +42,6 @@ public class AdminService
             lowStockProducts
         };
     }
-
     // ══════════════════════════
     // CUSTOMERS
     // ══════════════════════════
@@ -53,7 +56,7 @@ public class AdminService
                 c.PhoneNumber,
                 c.ShippingAddress,
                 c.RegistrationDate,
-                c.IsAdmin,
+                IsAdmin = c.IsAdmin ?? false,
                 TotalOrders = c.Orders.Count,
                 TotalSpent = c.Orders
                     .Where(o => o.Status != "Cancelled")
@@ -65,7 +68,6 @@ public class AdminService
     {
         var customer = await _context.Customers.FindAsync(customerId);
         if (customer == null) return false;
-
         _context.Customers.Remove(customer);
         await _context.SaveChangesAsync();
         return true;
@@ -75,61 +77,87 @@ public class AdminService
     // PRODUCTS
     // ══════════════════════════
     public async Task<(ProductResponseDto? product, string? error)> AdminCreateProductAsync(
-        ProductCreateDto dto)
+     ProductCreateDto dto)
     {
-        // 1. تحقق من الكاتيجوري
-        var category = await _context.Categories.FindAsync(dto.CategoryId);
-        if (category == null)
-            return (null, "Category not found.");
+        // استخدم Where بدل FindAsync عشان نتجنب الـ cast error
+        var categoryExists = await _context.Categories
+            .Where(c => c.CategoryId == dto.CategoryId)
+            .Select(c => new { c.CategoryId, c.Name })
+            .FirstOrDefaultAsync();
 
-        // 2. إنشاء المنتج بدون تحديد ID (مهم جداً)
+        if (categoryExists == null)
+            return (null, $"Category with ID {dto.CategoryId} not found.");
+
+        int nextId = await _context.Products.AnyAsync()
+            ? await _context.Products.MaxAsync(p => p.ProductId) + 1
+            : 1;
+
         var product = new Product
         {
+            ProductId = nextId,
             Name = dto.Name,
             Description = dto.Description,
-            StockQuantity = dto.StockQuantity ,
+            StockQuantity = dto.StockQuantity,
             UnitPrice = dto.UnitPrice,
             CategoryId = dto.CategoryId,
             ImageUrl = dto.ImageUrl,
             AddedDate = DateOnly.FromDateTime(DateTime.UtcNow)
         };
 
-        try
-        {
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+        _context.Products.Add(product);
+        await _context.SaveChangesAsync();
 
-            var result = await GetProductDtoAsync(product.ProductId);
-            return (result, null);
-        }
-        catch (Exception ex)
+        // ارجع الـ data مباشرة بدون query تانية
+        return (new ProductResponseDto
         {
-            return (null, ex.Message);
-        }
+            ProductId = product.ProductId,
+            Name = product.Name,
+            Description = product.Description,
+            StockQuantity = product.StockQuantity ?? 0,
+            UnitPrice = product.UnitPrice ?? 0,
+            CategoryId = product.CategoryId,
+            CategoryName = categoryExists.Name,
+            ImageUrl = product.ImageUrl,
+            AddedDate = DateTime.UtcNow
+        }, null);
     }
-
     public async Task<(ProductResponseDto? product, string? error)> AdminUpdateProductAsync(
         int productId, AdminUpdateProductDto dto)
     {
-        var product = await _context.Products.FindAsync(productId);
+        var product = await _context.Products
+            .Where(p => p.ProductId == productId)
+            .FirstOrDefaultAsync();
+
         if (product == null) return (null, "Product not found.");
 
         if (dto.Name != null) product.Name = dto.Name;
         if (dto.Description != null) product.Description = dto.Description;
-        if (dto.StockQuantity.HasValue) product.StockQuantity = dto.StockQuantity;
-        if (dto.UnitPrice.HasValue) product.UnitPrice = dto.UnitPrice;
+        if (dto.StockQuantity.HasValue) product.StockQuantity = dto.StockQuantity.Value;
+        if (dto.UnitPrice.HasValue) product.UnitPrice = dto.UnitPrice.Value;
         if (dto.CategoryId.HasValue) product.CategoryId = dto.CategoryId.Value;
         if (dto.ImageUrl != null) product.ImageUrl = dto.ImageUrl;
 
         await _context.SaveChangesAsync();
-        return (await GetProductDtoAsync(productId), null);
-    }
 
+        // ارجع الـ data مباشرة
+        return (new ProductResponseDto
+        {
+            ProductId = product.ProductId,
+            Name = product.Name,
+            Description = product.Description,
+            StockQuantity = product.StockQuantity ?? 0,
+            UnitPrice = product.UnitPrice ?? 0,
+            CategoryId = product.CategoryId,
+            ImageUrl = product.ImageUrl,
+            AddedDate = product.AddedDate.HasValue
+                ? product.AddedDate.Value.ToDateTime(TimeOnly.MinValue)
+                : null
+        }, null);
+    }
     public async Task<bool> AdminDeleteProductAsync(int productId)
     {
         var product = await _context.Products.FindAsync(productId);
         if (product == null) return false;
-
         _context.Products.Remove(product);
         await _context.SaveChangesAsync();
         return true;
@@ -169,9 +197,8 @@ public class AdminService
 
         var validStatuses = new[] { "Pending", "Processing", "Shipped", "Delivered", "Cancelled" };
         if (!validStatuses.Contains(dto.Status))
-            return (null, "Invalid status.");
+            return (null, "Invalid status. Use: Pending / Processing / Shipped / Delivered / Cancelled");
 
-        // رجّع الـ Stock لو اتكنسل
         if (dto.Status == "Cancelled" && order.Status != "Cancelled")
         {
             var items = await _context.OrderItems
@@ -188,7 +215,13 @@ public class AdminService
 
         order.Status = dto.Status;
         await _context.SaveChangesAsync();
-        return (new { order.OrderId, order.Status, order.TotalAmount }, null);
+
+        return (new
+        {
+            order.OrderId,
+            order.Status,
+            order.TotalAmount
+        }, null);
     }
 
     // ══════════════════════════
@@ -239,23 +272,5 @@ public class AdminService
         return true;
     }
 
-    // HELPER
-    private async Task<ProductResponseDto?> GetProductDtoAsync(int id)
-    {
-        return await _context.Products
-            .Where(p => p.ProductId == id)
-            .Select(p => new ProductResponseDto
-            {
-                ProductId = p.ProductId,
-                Name = p.Name,
-                Description = p.Description,
-                StockQuantity = p.StockQuantity ?? 0,
-                UnitPrice = p.UnitPrice ?? 0,
-                AddedDate = p.AddedDate.HasValue
-                    ? p.AddedDate.Value.ToDateTime(TimeOnly.MinValue) : null,
-                CategoryName = p.Category != null ? p.Category.Name : null,
-                ImageUrl = p.ImageUrl
-            })
-            .FirstOrDefaultAsync();
-    }
+
 }

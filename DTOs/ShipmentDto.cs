@@ -1,6 +1,4 @@
-﻿namespace ElectroAPI.DTOs;
-
-public class ShipmentCreateDto
+﻿public class ShipmentCreateDto
 {
     public int OrderId { get; set; }
     public string CurrierName { get; set; } = null!;
@@ -11,7 +9,6 @@ public class ShipmentCreateDto
 public class ShipmentUpdateDto
 {
     public string? Status { get; set; }
-    // Pending / InTransit / Delivered / Failed
     public DateOnly? DeliveryDate { get; set; }
     public int? TrackingNumber { get; set; }
 }

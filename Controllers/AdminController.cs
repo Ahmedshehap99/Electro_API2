@@ -21,26 +21,18 @@ public class AdminController : ControllerBase
     private bool IsAdmin() =>
         User.FindFirstValue("IsAdmin") == "True";
 
-    // ══════════════════════════
-    // STATS
-    // ══════════════════════════
     [HttpGet("stats")]
     public async Task<IActionResult> GetStats()
     {
         if (!IsAdmin()) return Forbid();
-        var stats = await _adminService.GetStatsAsync();
-        return Ok(stats);
+        return Ok(await _adminService.GetStatsAsync());
     }
 
-    // ══════════════════════════
-    // CUSTOMERS
-    // ══════════════════════════
     [HttpGet("customers")]
     public async Task<IActionResult> GetCustomers()
     {
         if (!IsAdmin()) return Forbid();
-        var customers = await _adminService.GetAllCustomersAsync();
-        return Ok(customers);
+        return Ok(await _adminService.GetAllCustomersAsync());
     }
 
     [HttpDelete("customers/{id}")]
@@ -48,16 +40,12 @@ public class AdminController : ControllerBase
     {
         if (!IsAdmin()) return Forbid();
         var deleted = await _adminService.DeleteCustomerAsync(id);
-        if (!deleted)
-            return NotFound(new { message = "Customer not found." });
+        if (!deleted) return NotFound(new { message = "Customer not found." });
         return Ok(new { message = "Customer deleted." });
     }
 
-    // ══════════════════════════
-    // PRODUCTS
-    // ══════════════════════════
     [HttpPost("products")]
-    public async Task<IActionResult> CreateProduct(ProductCreateDto dto)
+    public async Task<IActionResult> CreateProduct([FromBody] ProductCreateDto dto)
     {
         if (!IsAdmin()) return Forbid();
         var (product, error) = await _adminService.AdminCreateProductAsync(dto);
@@ -66,7 +54,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpPut("products/{id}")]
-    public async Task<IActionResult> UpdateProduct(int id, AdminUpdateProductDto dto)
+    public async Task<IActionResult> UpdateProduct(int id, [FromBody] AdminUpdateProductDto dto)
     {
         if (!IsAdmin()) return Forbid();
         var (product, error) = await _adminService.AdminUpdateProductAsync(id, dto);
@@ -79,24 +67,19 @@ public class AdminController : ControllerBase
     {
         if (!IsAdmin()) return Forbid();
         var deleted = await _adminService.AdminDeleteProductAsync(id);
-        if (!deleted)
-            return NotFound(new { message = "Product not found." });
+        if (!deleted) return NotFound(new { message = "Product not found." });
         return Ok(new { message = "Product deleted." });
     }
 
-    // ══════════════════════════
-    // ORDERS
-    // ══════════════════════════
     [HttpGet("orders")]
     public async Task<IActionResult> GetOrders()
     {
         if (!IsAdmin()) return Forbid();
-        var orders = await _adminService.GetAllOrdersAsync();
-        return Ok(orders);
+        return Ok(await _adminService.GetAllOrdersAsync());
     }
 
     [HttpPatch("orders/{id}/status")]
-    public async Task<IActionResult> UpdateOrderStatus(int id, OrderStatusUpdateDto dto)
+    public async Task<IActionResult> UpdateOrderStatus(int id, [FromBody] OrderStatusUpdateDto dto)
     {
         if (!IsAdmin()) return Forbid();
         var (order, error) = await _adminService.UpdateOrderStatusAsync(id, dto);
@@ -104,23 +87,18 @@ public class AdminController : ControllerBase
         return Ok(order);
     }
 
-    // ══════════════════════════
-    // CATEGORIES
-    // ══════════════════════════
     [HttpGet("categories")]
     public async Task<IActionResult> GetCategories()
     {
         if (!IsAdmin()) return Forbid();
-        var cats = await _adminService.GetAllCategoriesAsync();
-        return Ok(cats);
+        return Ok(await _adminService.GetAllCategoriesAsync());
     }
 
     [HttpPost("categories")]
-    public async Task<IActionResult> CreateCategory(CategoryCreateDto dto)
+    public async Task<IActionResult> CreateCategory([FromBody] CategoryCreateDto dto)
     {
         if (!IsAdmin()) return Forbid();
-        var cat = await _adminService.CreateCategoryAsync(dto);
-        return Ok(cat);
+        return Ok(await _adminService.CreateCategoryAsync(dto));
     }
 
     [HttpDelete("categories/{id}")]
@@ -128,8 +106,7 @@ public class AdminController : ControllerBase
     {
         if (!IsAdmin()) return Forbid();
         var deleted = await _adminService.DeleteCategoryAsync(id);
-        if (!deleted)
-            return BadRequest(new { message = "Category not found or has products." });
+        if (!deleted) return BadRequest(new { message = "Category not found or has products." });
         return Ok(new { message = "Category deleted." });
     }
 }

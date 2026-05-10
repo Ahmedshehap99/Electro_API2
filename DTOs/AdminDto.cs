@@ -1,4 +1,6 @@
-﻿namespace ElectroAPI.DTOs;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ElectroAPI.DTOs;
 
 public class AdminUpdateProductDto
 {
@@ -9,6 +11,8 @@ public class AdminUpdateProductDto
     public int? CategoryId { get; set; }
     public string? ImageUrl { get; set; }
 }
+
+
 
 public class CategoryCreateDto
 {

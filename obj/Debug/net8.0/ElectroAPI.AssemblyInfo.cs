@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ElectroAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b5f302d47589077ab19f02ebdfe1146e9cf2ed79")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+68c71f82c9ccb85a5eebddf1e96a00bcc407de0b")]
 [assembly: System.Reflection.AssemblyProductAttribute("ElectroAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ElectroAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,10 +1,7 @@
-﻿namespace ElectroAPI.DTOs;
-
-public class PaymentCreateDto
+﻿public class PaymentCreateDto
 {
     public int OrderId { get; set; }
     public string Method { get; set; } = null!;
-    // Cash / Credit Card / Debit Card / Vodafone Cash
 }
 
 public class PaymentResponseDto

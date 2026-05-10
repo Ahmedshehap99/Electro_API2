@@ -19,7 +19,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "ElectroAPI.DTOs.CategoryCreateDto",
+        "Type": "CategoryCreateDto",
         "IsRequired": true
       }
     ],
@@ -92,7 +92,7 @@
       },
       {
         "Name": "dto",
-        "Type": "ElectroAPI.DTOs.OrderStatusUpdateDto",
+        "Type": "OrderStatusUpdateDto",
         "IsRequired": true
       }
     ],
@@ -213,7 +213,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "ElectroAPI.DTOs.CartAddDto",
+        "Type": "CartAddDto",
         "IsRequired": true
       }
     ],
@@ -244,7 +244,7 @@
       },
       {
         "Name": "dto",
-        "Type": "ElectroAPI.DTOs.CartUpdateDto",
+        "Type": "CartUpdateDto",
         "IsRequired": true
       }
     ],
@@ -302,7 +302,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "ElectroAPI.DTOs.OrderCreateDto",
+        "Type": "OrderCreateDto",
         "IsRequired": true
       }
     ],
@@ -339,7 +339,7 @@
       },
       {
         "Name": "dto",
-        "Type": "ElectroAPI.DTOs.OrderStatusUpdateDto",
+        "Type": "OrderStatusUpdateDto",
         "IsRequired": true
       }
     ],
@@ -391,7 +391,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "ElectroAPI.DTOs.PaymentCreateDto",
+        "Type": "PaymentCreateDto",
         "IsRequired": true
       }
     ],
@@ -575,7 +575,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "ElectroAPI.DTOs.ShipmentCreateDto",
+        "Type": "ShipmentCreateDto",
         "IsRequired": true
       }
     ],
@@ -612,7 +612,7 @@
       },
       {
         "Name": "dto",
-        "Type": "ElectroAPI.DTOs.ShipmentUpdateDto",
+        "Type": "ShipmentUpdateDto",
         "IsRequired": true
       }
     ],

@@ -1,5 +1,4 @@
-﻿namespace ElectroAPI.DTOs;
-
+﻿// ══════════════════════════
 public class CartAddDto
 {
     public int ProductId { get; set; }

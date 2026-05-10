@@ -80,15 +80,32 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-
 var app = builder.Build();
 
-app.UseDefaultFiles();
+// Enable static files
 app.UseStaticFiles();
+
+// Redirect root "/" to login.html
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/login.html");
+    return Task.CompletedTask;
+});
+
+// Swagger only at /swagger
 app.UseSwagger();
-app.UseSwaggerUI();
+
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Electro API v1");
+    c.RoutePrefix = "swagger";
+});
+
 app.UseCors("AllowAll");
+
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
+
 app.Run();

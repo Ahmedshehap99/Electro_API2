@@ -1,3 +1,4 @@
+wwwroot\css\admin.css
 wwwroot\css\cart.css
 wwwroot\css\dashboard.css
 wwwroot\css\login.css
@@ -8,8 +9,7 @@ wwwroot\js\dashboard.js
 wwwroot\js\login.js
 wwwroot\js\product.js
 wwwroot\login.html
-wwwroot\css\admin.css
-wwwroot\pages\cart.html
-wwwroot\pages\dashboard.html
-wwwroot\pages\product.html
 wwwroot\pages\admin.html
+wwwroot\pages\cart.html
+wwwroot\pages\product.html
+wwwroot\pages\dashboard.html
