@@ -109,7 +109,7 @@ async function handleSubmit(e) {
             localStorage.setItem('token', data.token);
 
             showAlert('Login successful! Redirecting...', 'success');
-            document.getElementById('token-text').textContent = data.token;
+            //document.getElementById('token-text').textContent = data.token;
             document.getElementById('token-box').style.display = 'block';
             window.location.href = '/pages/dashboard.html';
             ;
@@ -134,11 +134,11 @@ async function handleSubmit(e) {
                 throw new Error(data.message || 'Registration failed.');
 
             currentToken = data.token;
-            localStorage.setItem('token', data.token);
+            //localStorage.setItem('token', data.token);
 
             showAlert('Account created! Redirecting...', 'success');
-            document.getElementById('token-text').textContent = data.token;
-            document.getElementById('token-box').style.display = 'block';
+            //document.getElementById('token-text').textContent = data.token;
+            //document.getElementById('token-box').style.display = 'block';
 
 
             window.location.href = '/pages/dashboard.html';
@@ -158,9 +158,7 @@ async function handleSubmit(e) {
 // =====================
 window.addEventListener('load', () => {
     const token = localStorage.getItem('token');
-    if (token) {
-        showAlert('You are already logged in!', 'success');
-    }
+
 });
 
 
@@ -192,9 +190,4 @@ window.addEventListener('load', () => {
         icon.textContent = '🌙';
     }
 
-    // Check if already logged in
-    const token = localStorage.getItem('token');
-    if (token) {
-        showAlert('You are already logged in!', 'success');
-    }
 });

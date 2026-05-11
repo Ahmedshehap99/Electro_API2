@@ -1,28 +1,7 @@
-﻿const API = "https://localhost:44351/login.html";
-
-const DEMO_PRODUCTS = [
-    { id: 1, name: "Pink Headphone", price: 1300, imageUrl: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80", category: "Accessories", brand: "JBL" },
-    { id: 2, name: "iPhone 16", price: 130000, imageUrl: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=500&q=80", category: "Phones", brand: "Apple" },
-    { id: 3, name: "Samsung Watch", price: 13000, imageUrl: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&q=80", category: "Watches", brand: "Samsung" },
-    { id: 4, name: "iPhone 17", price: 190000, imageUrl: "data:image/webp;base64,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", category: "Phones", brand: "Apple" },
-    { id: 5, name: "iPad 12 Pro", price: 18000, imageUrl: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=500&q=80", category: "Tablets", brand: "Apple" },
-    { id: 6, name: "Samsung Watch Pro", price: 2800, imageUrl: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80", category: "Watches", brand: "Samsung" },
-    { id: 7, name: "AirPods 2 Pro", price: 2500, imageUrl: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=500&q=80", category: "Accessories", brand: "Apple" },
-    { id: 8, name: "Galaxy S24 Ultra", price: 85000, imageUrl: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=500&q=80", category: "Phones", brand: "Samsung" },
-    { id: 9, name: "Sony WH-1000XM5", price: 8500, imageUrl: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=500&q=80", category: "Accessories", brand: "Sony" },
-];
-
-function mapProduct(p) {
-    return {
-        id: p?.productId ?? p?.id ?? 0,
-        name: p?.name ?? p?.Name ?? "Unnamed Product",
-        price: Number(p?.unitPrice ?? p?.price ?? 0),
-        imageUrl: p?.imageUrl ?? p?.ImageUrl ?? p?.image ?? "",
-        category: p?.categoryName ?? p?.category ?? "",
-        brand: p?.brand ?? p?.Brand ?? "",
-        isNew: p?.isNew ?? false,
-    };
-}
+﻿// ══════════════════════════════
+// CONFIG
+// ══════════════════════════════
+const API = "https://localhost:44351/api";
 
 let allProducts = [];
 let filtered = [];
@@ -30,102 +9,139 @@ let currentPage = 1;
 const perPage = 9;
 let activeSort = "default";
 let activeCategory = "all";
-let activeBrand = "";
 let activePriceMin = 0;
 let activePriceMax = Infinity;
 
+// ══════════════════════════════
+// INIT
+// ══════════════════════════════
 window.onload = () => {
+    loadTheme();
     updateCartCount();
     loadProducts();
 };
 
+// ══════════════════════════════
+// LOAD PRODUCTS
+// ══════════════════════════════
 async function loadProducts() {
     const container = document.getElementById("products");
-    container.innerHTML = `
-        <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line-sm"></div><div class="skeleton skeleton-btn"></div></div>
-        <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line-sm"></div><div class="skeleton skeleton-btn"></div></div>
-        <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line-sm"></div><div class="skeleton skeleton-btn"></div></div>
-        <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line-sm"></div><div class="skeleton skeleton-btn"></div></div>
-        <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line-sm"></div><div class="skeleton skeleton-btn"></div></div>
-        <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line-sm"></div><div class="skeleton skeleton-btn"></div></div>`;
+
+    // Skeleton
+    container.innerHTML = Array(6).fill(`
+        <div class="skeleton-card">
+            <div class="skeleton skeleton-img"></div>
+            <div class="skeleton skeleton-line"></div>
+            <div class="skeleton skeleton-line-sm"></div>
+            <div class="skeleton skeleton-btn"></div>
+        </div>`).join("");
+
     try {
         const res = await fetch(`${API}/Products`);
         if (!res.ok) throw new Error("API error");
         const data = await res.json();
         allProducts = data.map(mapProduct);
     } catch {
-        allProducts = DEMO_PRODUCTS.map(mapProduct);
+        allProducts = [];
+        showToast("⚠️ Could not load products");
     }
+
     filtered = [...allProducts];
-    buildDynamicCategories();
-    buildDynamicBrands();
+    buildCategories();
     renderProducts();
     updateCartCount();
 }
 
-function buildDynamicCategories() {
+// ══════════════════════════════
+// MAP PRODUCT
+// ══════════════════════════════
+function mapProduct(p) {
+    return {
+        id: p?.productId ?? p?.id ?? 0,
+        name: p?.name ?? p?.Name ?? "Unnamed",
+        price: Number(p?.unitPrice ?? p?.price ?? 0),
+        imageUrl: p?.imageUrl ?? p?.ImageUrl ?? p?.image ?? "",
+        category: p?.categoryName ?? p?.category ?? "",
+        description: p?.description ?? "",
+        stock: p?.stockQuantity ?? 0,
+    };
+}
+
+// ══════════════════════════════
+// BUILD CATEGORIES
+// ══════════════════════════════
+function buildCategories() {
     const cats = ["all", ...new Set(allProducts.map(p => p.category).filter(Boolean))];
     const list = document.getElementById("categoryList");
-    list.innerHTML = cats.map(cat => `
-        <li class="${cat === "all" ? "active" : ""}" onclick="filterByCategory('${cat}', this)">
-            ${cat === "all" ? "All Products" : cat}
-            <span class="count">${cat === "all" ? allProducts.length : allProducts.filter(p => p.category === cat).length}</span>
-        </li>`).join("");
-}
-
-function buildDynamicBrands() {
-    const brands = [...new Set(allProducts.map(p => p.brand).filter(Boolean))];
-    const list = document.getElementById("brandList");
     if (!list) return;
-    list.innerHTML = brands.map(brand => `
-        <li onclick="filterByBrand('${brand}', this)">
-            ${brand}
-            <span class="count">${allProducts.filter(p => p.brand === brand).length}</span>
+
+    list.innerHTML = cats.map(cat => `
+        <li class="${cat === "all" ? "active" : ""}"
+            onclick="filterByCategory('${cat}', this)">
+            ${cat === "all" ? "All Products" : cat}
+            <span class="count">
+                ${cat === "all"
+            ? allProducts.length
+            : allProducts.filter(p => p.category === cat).length}
+            </span>
         </li>`).join("");
 }
 
+// ══════════════════════════════
+// RENDER PRODUCTS
+// ══════════════════════════════
 function renderProducts() {
     const container = document.getElementById("products");
     const start = (currentPage - 1) * perPage;
     const page = filtered.slice(start, start + perPage);
     const total = filtered.length;
 
-    document.getElementById("productsCount").textContent = total === 0
-        ? "No products found"
-        : `Showing ${start + 1}–${Math.min(start + page.length, total)} of ${total} products`;
+    // Count
+    const countEl = document.getElementById("productsCount");
+    if (countEl) {
+        countEl.textContent = total === 0
+            ? "No products found"
+            : `Showing ${start + 1}–${Math.min(start + page.length, total)} of ${total} products`;
+    }
 
     if (page.length === 0) {
         container.innerHTML = `
             <div class="no-results">
                 <div class="icon">◈</div>
                 <p>No products match your filters</p>
-                <button onclick="resetFilters()" style="margin-top:16px;padding:10px 24px;background:var(--gold);color:#000;border:none;cursor:pointer;font-family:'Outfit',sans-serif;letter-spacing:1px;text-transform:uppercase;font-size:11px;">Reset Filters</button>
+                <button onclick="resetFilters()">Reset Filters</button>
             </div>`;
         renderPagination();
         return;
     }
 
     container.innerHTML = page.map((p, i) => {
-        const img = p.imageUrl && p.imageUrl.trim() !== ""
+        const img = p.imageUrl && p.imageUrl.trim()
             ? p.imageUrl
             : `https://placehold.co/400x400/1e1e1e/888?text=${encodeURIComponent(p.name)}`;
-        const price = Number(p.price || 0).toLocaleString();
+
         return `
-        <div class="card" style="animation-delay:${i * 0.06}s">
+        <div class="card" style="animation-delay:${i * 0.06}s"
+             onclick="goToProduct(${p.id})">
             <div class="card-img-wrap">
-                ${p.isNew ? `<span class="card-badge">New</span>` : ""}
-                <img src="${img}" alt="${p.name}" onerror="this.src='https://placehold.co/400x400/1e1e1e/888?text=No+Image'" />
+                <img src="${img}" alt="${p.name}"
+                     onerror="this.src='https://placehold.co/400x400/1e1e1e/888?text=No+Image'"/>
                 <div class="card-overlay">
-                    <button class="overlay-btn" onclick="event.stopPropagation();addToWishlist(${p.id})" title="Wishlist">♡</button>
-                    <button class="overlay-btn" onclick="event.stopPropagation();quickView(${p.id})" title="Quick View">⊙</button>
-                    <button class="overlay-btn" onclick="event.stopPropagation();addToCart(${p.id})" title="Add to Cart">⊕</button>
+                    <button class="overlay-btn" title="Wishlist"
+                        onclick="event.stopPropagation();addToWishlist(${p.id})">♡</button>
+                    <button class="overlay-btn" title="Quick View"
+                        onclick="event.stopPropagation();quickView(${p.id})">⊙</button>
+                    <button class="overlay-btn" title="Add to Cart"
+                        onclick="event.stopPropagation();addToCart(${p.id})">⊕</button>
                 </div>
             </div>
             <div class="card-body">
                 ${p.category ? `<p class="card-category">${p.category}</p>` : ""}
                 <h3 class="card-name">${p.name}</h3>
-                <p class="card-price">${price} EGP</p>
-                <button class="card-add" onclick="addToCart(${p.id})">Add to Cart</button>
+                <p class="card-price">${Number(p.price).toLocaleString()} EGP</p>
+                <button class="card-add" onclick="event.stopPropagation();addToCart(${p.id})">
+                    Add to Cart
+                </button>
             </div>
         </div>`;
     }).join("");
@@ -133,42 +149,57 @@ function renderProducts() {
     renderPagination();
 }
 
+// ══════════════════════════════
+// PAGINATION
+// ══════════════════════════════
+function renderPagination() {
+    const total = Math.ceil(filtered.length / perPage);
+    const pg = document.getElementById("pagination");
+    if (!pg) return;
+    if (total <= 1) { pg.innerHTML = ""; return; }
+
+    let html = `<button class="page-arrow" onclick="goPage(${currentPage - 1})"
+        ${currentPage === 1 ? 'disabled' : ""}>‹</button>`;
+
+    for (let i = 1; i <= total; i++) {
+        html += `<button class="page-btn ${i === currentPage ? "active" : ""}"
+            onclick="goPage(${i})">${i}</button>`;
+    }
+
+    html += `<button class="page-arrow" onclick="goPage(${currentPage + 1})"
+        ${currentPage === total ? 'disabled' : ""}>›</button>`;
+
+    pg.innerHTML = html;
+}
+
+function goPage(n) {
+    const total = Math.ceil(filtered.length / perPage);
+    if (n < 1 || n > total) return;
+    currentPage = n;
+    renderProducts();
+    window.scrollTo({ top: 300, behavior: "smooth" });
+}
+
+// ══════════════════════════════
+// FILTERS
+// ══════════════════════════════
 function applyFilters() {
     const q = document.getElementById("searchInput")?.value.toLowerCase().trim() || "";
+
     filtered = allProducts.filter(p => {
-        const matchSearch = !q || p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q);
+        const matchSearch = !q || p.name.toLowerCase().includes(q)
+            || p.category.toLowerCase().includes(q);
         const matchCategory = activeCategory === "all" || p.category === activeCategory;
-        const matchBrand = !activeBrand || p.brand === activeBrand;
         const matchPrice = p.price >= activePriceMin && p.price <= activePriceMax;
-        return matchSearch && matchCategory && matchBrand && matchPrice;
+        return matchSearch && matchCategory && matchPrice;
     });
+
     if (activeSort === "price-asc") filtered.sort((a, b) => a.price - b.price);
     else if (activeSort === "price-desc") filtered.sort((a, b) => b.price - a.price);
     else if (activeSort === "name") filtered.sort((a, b) => a.name.localeCompare(b.name));
+
     currentPage = 1;
     renderProducts();
-}
-
-function resetFilters() {
-    activeCategory = "all"; activeBrand = ""; activePriceMin = 0; activePriceMax = Infinity; activeSort = "default";
-    document.getElementById("searchInput").value = "";
-    document.querySelector(".sort-select").value = "default";
-    document.querySelector(".sort-select").style.borderColor = "";
-    document.querySelector(".sort-select").style.color = "";
-    document.querySelectorAll("#categoryList li").forEach((l, i) => l.classList.toggle("active", i === 0));
-    document.querySelectorAll("#brandList li").forEach(l => l.classList.remove("active"));
-    document.querySelectorAll(".price-option").forEach(o => o.classList.remove("active"));
-    filtered = [...allProducts];
-    currentPage = 1;
-    renderProducts();
-}
-
-function sortProducts(val) {
-    activeSort = val;
-    const select = document.querySelector(".sort-select");
-    select.style.borderColor = val === "default" ? "" : "var(--gold)";
-    select.style.color = val === "default" ? "" : "var(--gold)";
-    applyFilters();
 }
 
 function filterProducts() { applyFilters(); }
@@ -180,40 +211,49 @@ function filterByCategory(cat, el) {
     applyFilters();
 }
 
-function filterByBrand(brand, el) {
-    const alreadyActive = el.classList.contains("active");
-    document.querySelectorAll("#brandList li").forEach(l => l.classList.remove("active"));
-    activeBrand = alreadyActive ? "" : brand;
-    if (!alreadyActive) el.classList.add("active");
-    applyFilters();
-}
-
 function filterByPrice(min, max, el) {
     const alreadyActive = el.classList.contains("active");
     document.querySelectorAll(".price-option").forEach(o => o.classList.remove("active"));
-    if (alreadyActive) { activePriceMin = 0; activePriceMax = Infinity; }
-    else { el.classList.add("active"); activePriceMin = min; activePriceMax = max; }
+    if (alreadyActive) {
+        activePriceMin = 0;
+        activePriceMax = Infinity;
+    } else {
+        el.classList.add("active");
+        activePriceMin = min;
+        activePriceMax = max;
+    }
     applyFilters();
 }
 
-function renderPagination() {
-    const total = Math.ceil(filtered.length / perPage);
-    const pg = document.getElementById("pagination");
-    if (total <= 1) { pg.innerHTML = ""; return; }
-    let html = `<button class="page-arrow" onclick="goPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled style="opacity:.3;cursor:default"' : ""}>‹</button>`;
-    for (let i = 1; i <= total; i++) html += `<button class="page-btn ${i === currentPage ? "active" : ""}" onclick="goPage(${i})">${i}</button>`;
-    html += `<button class="page-arrow" onclick="goPage(${currentPage + 1})" ${currentPage === total ? 'disabled style="opacity:.3;cursor:default"' : ""}>›</button>`;
-    pg.innerHTML = html;
+function sortProducts(val) {
+    activeSort = val;
+    applyFilters();
 }
 
-function goPage(n) {
-    const total = Math.ceil(filtered.length / perPage);
-    if (n < 1 || n > total) return;
-    currentPage = n;
+function resetFilters() {
+    activeCategory = "all";
+    activePriceMin = 0;
+    activePriceMax = Infinity;
+    activeSort = "default";
+
+    const searchInput = document.getElementById("searchInput");
+    const sortSelect = document.querySelector(".sort-select");
+    if (searchInput) searchInput.value = "";
+    if (sortSelect) sortSelect.value = "default";
+
+    document.querySelectorAll("#categoryList li").forEach((l, i) =>
+        l.classList.toggle("active", i === 0));
+    document.querySelectorAll(".price-option").forEach(o =>
+        o.classList.remove("active"));
+
+    filtered = [...allProducts];
+    currentPage = 1;
     renderProducts();
-    window.scrollTo({ top: 350, behavior: "smooth" });
 }
 
+// ══════════════════════════════
+// CART
+// ══════════════════════════════
 function addToCart(id) {
     const product = allProducts.find(p => p.id === id);
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -244,45 +284,47 @@ function quickView(id) {
     if (p) showToast(`⊙ ${p.name} — ${p.price.toLocaleString()} EGP`);
 }
 
+function goToProduct(id) {
+    window.location.href = `product.html?id=${id}`;
+}
+
+// ══════════════════════════════
+// TOAST
+// ══════════════════════════════
 let toastTimer;
 function showToast(msg) {
     const t = document.getElementById("toast");
+    if (!t) return;
     t.textContent = msg;
     t.classList.add("show");
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => t.classList.remove("show"), 3000);
 }
 
-function logout() {
-    localStorage.removeItem("token");
-    window.location.href = "../login.html";
-}
-
+// ══════════════════════════════
+// THEME
+// ══════════════════════════════
 function toggleTheme() {
     const body = document.body;
     const btn = document.getElementById("themeBtn");
-
-    body.classList.toggle("light");
-
-    // حفظ الوضع في localStorage
-    if (body.classList.contains("light")) {
-        localStorage.setItem("theme", "light");
-        btn.textContent = "☀️";
-    } else {
-        localStorage.setItem("theme", "dark");
-        btn.textContent = "🌙";
-    }
+    const isLight = body.classList.toggle("light");
+    if (btn) btn.textContent = isLight ? "☀️" : "🌙";
+    localStorage.setItem("theme", isLight ? "light" : "dark");
 }
-window.onload = () => {
-    updateCartCount();
-    loadProducts();
 
-
-    const savedTheme = localStorage.getItem("theme");
+function loadTheme() {
+    const saved = localStorage.getItem("theme");
     const btn = document.getElementById("themeBtn");
-
-    if (savedTheme === "light") {
+    if (saved === "light") {
         document.body.classList.add("light");
         if (btn) btn.textContent = "☀️";
     }
-};
+}
+
+// ══════════════════════════════
+// LOGOUT
+// ══════════════════════════════
+function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "/login.html";
+}

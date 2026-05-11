@@ -1,5 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
-
+﻿﻿@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
 /* ══════════════════════════════════════════
    ROOT — DARK MODE (default)
 ══════════════════════════════════════════ */
@@ -697,7 +696,7 @@ body.light .header::before {
     margin-bottom: 32px;
 }
 
-.sidebar-title {
+/*.sidebar-title {
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 3px;
@@ -707,7 +706,7 @@ body.light .header::before {
     padding-bottom: 10px;
     border-bottom: 1px solid var(--border);
 }
-
+*/
 .sidebar ul {
     list-style: none;
 }
@@ -745,11 +744,11 @@ body.light .header::before {
 /* ══════════════════════════════════════════
    PRICE FILTER
 ══════════════════════════════════════════ */
-.price-filter {
+/*.price-filter {
     display: flex;
     flex-direction: column;
     gap: 4px;
-}
+}*/
 
 .price-option {
     font-size: 12px;
@@ -1239,6 +1238,7 @@ footer {
         max-width: 100%;
     }
 }
+
 body.light {
     --bg: #f0f4f8;
 }
