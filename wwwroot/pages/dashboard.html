@@ -27,7 +27,12 @@
             </button>
             <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
-        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
+
+        <div class="nav-right1">
+            <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">☀️</button>
+        </div>
+
+
     </nav>
 
     <!-- ═════════ HEADER ═════════ -->
@@ -95,7 +100,6 @@
     <section class="insta-section">
         <p class="section-subtitle">Follow Us</p>
         <h2 class="section-title">@ElectroStore</h2>
-        <a href="../pages/dashboard.html" class="insta-link">Visit our About page →</a>
         <div class="insta-grid">
             <div class="insta-item"><img src="https://th.bing.com/th/id/OIP.L0kwchNnqFmrDBnEhdGgUgHaHa?w=186&h=187&c=7&r=0&o=7&dpr=1.1&pid=1.7&rm=3" alt="airbods" /></div>
             <div class="insta-item"><img src="data:image/webp;base64,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" alt="insta" /></div>

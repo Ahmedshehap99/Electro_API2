@@ -1,4 +1,5 @@
-﻿const API = "https://localhost:44351/api";
+﻿
+const API = "https://localhost:44351/api";
 
 /* ══════════════════════════════════════════
    STATE
